@@ -259,7 +259,7 @@ class Commands:
         embedVar = None
         del embedVar
 
-
+ 
     async def playSound(self):
         voice_channel = self.message.author.voice.channel
         file:str = self.msg.split(" ",1)[1]

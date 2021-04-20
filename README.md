@@ -23,7 +23,7 @@ Um bot MUITO caótico do discord
 |~help 										|Mostrar comandos do bot.|
 |~flood (n) (mensagem)								|Spamar uma mensagem n vezes no servidor. |
 |~floodPV (n) (@pessoa) (mensagem)						|Spama um pessoa no privado n vezes de maneira anonima.|
-|~status (ogo, musica ou filme> <mensagem)					|Alterar mensagem que aparece no status do bot.|
+|~status (ogo, musica ou filme) (mensagem)					|Alterar mensagem que aparece no status do bot.|
 |~copypasta (opcional: index da copypasta)					|Envia uma copypasta retirado diretamente do nosso incrível banco de dados.|
 |~yall (mensagem)								|Envia uma mensagem de alerta marcando todos, em todos os canais do server.|
 |~roullette									|Brinque de roleta russa e remova alguem aleatoriamente do canal.|
