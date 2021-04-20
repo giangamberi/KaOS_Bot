@@ -4,9 +4,7 @@
 [![Versão python](https://img.shields.io/badge/python-v3.8.5-blue?logo=python)](https://www.python.org/downloads/release/python-385/)
 [![Licença](https://img.shields.io/badge/license-MIT-brightgreen?)](https://github.com/giangamberi/KaOS_Bot/blob/main/LICENSE)
 
-<p align="center">
-  <img width="500" height="500" src="https://github.com/giangamberi/KaOS_Bot/blob/main/Arquivos/Imagens/Logo/logo-final.png">
-</p>
+![capa](https://github.com/giangamberi/KaOS_Bot/blob/main/Arquivos/Imagens/Logo/capa.png)
 
 Um bot *MUITO* caótico do discord.
 
