@@ -1,6 +1,7 @@
 ## Bibliotecas necessárias
 # Arquivos globais
 from discord import Client, Message, Embed, Game, Activity, ActivityType, FFmpegPCMAudio		# Configurações do dircord
+import discord
 from mutagen import mp3, mp4                                                            # Mexe com audio
 from os import listdir 	 														        # Permitir import do Token de outro arquivo
 from random import randint																# Pega algo aleatório
@@ -14,7 +15,7 @@ class Commands:
     user:str = ""
     text:str = ""
     botID:int = 832785093117476884
-    copypastas = listdir("copypastas/")
+    copypastas = listdir("copypastas")
     mensagensImportantes = []
     
 
@@ -54,15 +55,18 @@ class Commands:
 
 
     async def padrao(self) -> None:
+        if (("duvido" in self.msg.lower()) and (self.message.author != self.client.user)):
+            await self.message.channel.send(f"{self.message.author.mention} Meu pau no teu ouvido.")
+
         if ((self.msg.lower().endswith("ao") or self.msg.lower().endswith("ão")) and (self.message.author != self.client.user)):
             await self.message.channel.send(f"{self.message.author.mention} Meu pau na sua mão.")
 
-        elif ((self.msg.lower().endswith("ta")) and (self.message.author != self.client.user) and (not self.msg.startswith("~copypasta"))):
+        elif ((self.msg.lower().endswith("ta")) and (self.message.author != self.client.user) and (not self.msg.lower().startswith("~copypasta"))):
             await self.message.channel.send(f"{self.message.author.mention} Meu pau te cutuca.")
-        
-        if (("duvido" in self.msg.lower()) and (self.message.author != self.client.user)):
-            await self.message.channel.send(f"{self.message.author.mention} Meu pau no teu ouvido.")
-                
+
+        elif ((self.msg.lower().endswith("el")) and (self.message.author != self.client.user)):
+            await self.message.channel.send(f"{self.message.author.mention} Meu pau no teu anel.")    
+
 
     async def spam(self) -> None:
         spam:str = self.msg.split(" ",1)[1]
@@ -188,10 +192,11 @@ class Commands:
 
         path:str = "copypastas/" + self.copypastas[index]
         
-        doc = open(path,"r")
+        doc = open(path,"rb")
         
         while True:
-            aux:str = doc.readline()
+            aux = doc.readline()
+            aux = aux.decode('utf-8')
             if aux == "": break
             if aux in ["\n", " \n"]: continue
             try:
@@ -252,7 +257,9 @@ class Commands:
 
 
     async def listCommands(self) -> None:
-        embedVar = Embed(title="~help for commands", description="-------------------------------", color=0x00ff00)
+        cor  = discord.Colour.from_rgb(255,102,102)
+
+        embedVar = Embed(title="~help para ter os comandos", description="Para voce infernizar seus amigos", colour=cor, )
 
         for x in range(len(allComands.keys())):
             embedVar.add_field(name=list(allComands.keys())[x], value=list(allComands.values())[x], inline=False)
