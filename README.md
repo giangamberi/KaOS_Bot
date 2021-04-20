@@ -17,23 +17,26 @@ Um bot MUITO caótico do discord
 6. [Autores](#autores)
 
 ## Comandos
-|Comandos																		|Descrição|
+|Comandos									|Descrição|
 |-------------------------------------------|---------------------------------------------------------------------------------------------------|
 |~help 										|Mostrar comandos do bot.|
-|~spam <n> <mensagem>						|Spamar uma mensagem n vezes no servidor.|
-|~spanP <n> <@pessoa> <mensagem>			|Spama um pessoa no privado n vezes de maneira anonima.|
-|~status <jogo, musica ou filme> <mensagem>	|Alterar mensagem que aparece no status do bot.|
-|~copypasta <opcional: index da copypasta>	|Envia uma copypasta retirado diretamente do nosso incrível banco de dados.|
-|~alerta <mensagem>							|Envia uma mensagem de alerta marcando todos, em todos os canais do server.|
-|~roll										|Brinque de roleta russa e remova alguem aleatoriamente do canal.|
+|~flood (n) (mensagem)								|Spamar uma mensagem n vezes no servidor. |
+|~floodPV (n) (@pessoa) (mensagem)						|Spama um pessoa no privado n vezes de maneira anonima.|
+|~status (ogo, musica ou filme> <mensagem)					|Alterar mensagem que aparece no status do bot.|
+|~copypasta (opcional: index da copypasta)					|Envia uma copypasta retirado diretamente do nosso incrível banco de dados.|
+|~yall (mensagem)								|Envia uma mensagem de alerta marcando todos, em todos os canais do server.|
+|~roullette									|Brinque de roleta russa e remova alguem aleatoriamente do canal.|
 |~purge										|Diversão! Manda todo mundo que tá na call pro caralho.|
-|~mute @pessoa								|Tira o som da pessoa em todos os servidores possíveis, por que pau no cu dessa pessoa em especial.|
-|~unmute @pessoa							|Muten't.|
-|~headphone @pessoa							|Tira os 5 sentidos da pessoa na call.|
-|~unheadphone								|Volta o som e o mic da pessoa. Booooo.|
+|~erradicate									|MAIS DIVERSÃO! Bane TODO MUNDO de TODAS AS CALLS.|
+|~deafen (@pessoa)								|Tira os 5 sentidos da pessoa na call.|
+|~undeafen (@pessoa)								|Volta o som e o mic da pessoa. Booooo.|
 |~silence									|Cala a boca de todo mundo.|
 |~unsilence									|!Silence.|
-|~ban @pessoa								|Desconecta a pessoa do canal de voz.|
+|~ban (@pessoa)									|Desconecta a pessoa do canal de voz.|
+|~earthquake									|Mistura todos os integrantes de todas as salas e os embaralha. Show!|
+|~shake (@pessoa)								|Você amaldiçoou a pessoa a ficar trocando de canais de voz, a cada segundo. Por 1 minuto.|
+|~silence patrick								|Silencia o patrick.|
+|~shout <nomedoaudio>.mp3							|Solta a voz do bot.|
 
 
 ## Código
@@ -69,6 +72,12 @@ Este projeto é licencenciado por [MIT License](https://github.com/giangamberi/K
             <a href="https://github.com/REXDES">
                 <img src="https://avatars.githubusercontent.com/u/49534119" width="100px;" alt="Foto do Rone no GitHub"/><br>
                 <sub><b>Rone Filho</b></sub>
+            </a>
+        </td>
+        <td align="center">
+            <a href="https://github.com/marcelotakayama">
+                <img src="https://avatars.githubusercontent.com/u/47531526" width="100px;" alt="Foto do Marcelo Takayama no GitHub"/><br>
+                <sub><b>Marcelo Takayama</b></sub>
             </a>
         </td>
     </tr>
