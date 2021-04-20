@@ -34,8 +34,9 @@ Um bot MUITO caótico do discord
 |~unsilence									|!Silence.|
 |~ban (@pessoa)									|Desconecta a pessoa do canal de voz.|
 |~earthquake									|Mistura todos os integrantes de todas as salas e os embaralha. Show!|
-|~shake (@pessoa)									|Você amaldiçoou a pessoa a ficar trocando de canais de voz, a cada segundo. Por 1 minuto.|
+|~shake (@pessoa)								|Você amaldiçoou a pessoa a ficar trocando de canais de voz, a cada segundo. Por 1 minuto.|
 |~silence patrick								|Silencia o patrick.|
+|~shout <nomedoaudio>.mp3							|Solta a voz do bot.|
 
 
 ## Código
@@ -71,6 +72,12 @@ Este projeto é licencenciado por [MIT License](https://github.com/giangamberi/K
             <a href="https://github.com/REXDES">
                 <img src="https://avatars.githubusercontent.com/u/49534119" width="100px;" alt="Foto do Rone no GitHub"/><br>
                 <sub><b>Rone Filho</b></sub>
+            </a>
+        </td>
+        <td align="center">
+            <a href="https://github.com/marcelotakayama">
+                <img src="https://avatars.githubusercontent.com/u/47531526" width="100px;" alt="Foto do Marcelo Takayama no GitHub"/><br>
+                <sub><b>Marcelo Takayama</b></sub>
             </a>
         </td>
     </tr>
