@@ -8,7 +8,7 @@
   <img width="500" height="500" src="https://github.com/giangamberi/KaOS_Bot/blob/main/Arquivos/Imagens/Logo/logo-final.png">
 </p>
 
-Um bot MUITO caótico do discord
+Um bot *MUITO* caótico do discord.
 
 1. [Comandos](#comandos)
 2. [Código](#código)
@@ -23,7 +23,7 @@ Um bot MUITO caótico do discord
 |~help 										|Mostrar comandos do bot.|
 |~flood (n) (mensagem)								|Spamar uma mensagem n vezes no servidor. |
 |~floodPV (n) (@pessoa) (mensagem)						|Spama um pessoa no privado n vezes de maneira anonima.|
-|~status (ogo, musica ou filme> <mensagem)					|Alterar mensagem que aparece no status do bot.|
+|~status (ogo, musica ou filme) (mensagem)					|Alterar mensagem que aparece no status do bot.|
 |~copypasta (opcional: index da copypasta)					|Envia uma copypasta retirado diretamente do nosso incrível banco de dados.|
 |~yall (mensagem)								|Envia uma mensagem de alerta marcando todos, em todos os canais do server.|
 |~roullette									|Brinque de roleta russa e remova alguem aleatoriamente do canal.|
@@ -41,12 +41,21 @@ Um bot MUITO caótico do discord
 
 
 ## Código
-Baixando a pasta [_main](https://github.com/giangamberi/KaOS_Bot/tree/main/_main) você consegue ter acesso ao código. As requisições estão declaradas na parte de [Requerimentos](#requerimentos). Para executar o programa basta rodar o arquivo ```main.py```.
+Baixando a pasta [_main](https://github.com/giangamberi/KaOS_Bot/tree/main/_main) você consegue ter acesso ao código. Os pré-requisitos para rodar estão declaradas na parte de [Requerimentos](#requerimentos). Para executar o programa basta rodar o arquivo ```main.py```.
 
 ## Requerimentos
-O programa usa uma biblioteca externa disponibilizada pelo próprio Discord, que utiliza uma [API](https://discordpy.readthedocs.io/en/latest/api.html) deles. Para usar basta instalar com o ```pip```.
+O programa algumas biblioteca externas:
+- [Discord](https://pypi.org/project/discord.py/): uso da [api](https://discordpy.readthedocs.io/en/latest/api.html) do discord para suporte com python.
 
-    pip install discord
+    	pip install discord
+    
+- [Mutagen](https://pypi.org/project/mutagen/): suporte para áudio.
+ 
+    	pip install mutagen
+    
+- [PyNaCl](https://pypi.org/project/PyNaCl/): suporte para remoção de pessoas e saída de som do bot.
+
+    	pip install PyNaCl
 
 ## Documentação
 Em breve uma documentação será criada na [wiki](https://github.com/giangamberi/KaOS_Bot/wiki) do repositório.
