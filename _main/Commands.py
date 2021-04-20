@@ -1,56 +1,68 @@
 ## Bibliotecas necessárias
 # Arquivos globais
-from discord import Client, Intents, Message, Embed, Game, Activity, ActivityType		# Configurações do dircord
-from os import listdir, getenv 	 														# Permitir import do Token de outro arquivo
+from discord import Client, Message, Embed, Game, Activity, ActivityType, FFmpegPCMAudio		# Configurações do dircord
+from mutagen import mp3, mp4                                                            # Mexe com audio
+from os import listdir 	 														        # Permitir import do Token de outro arquivo
 from random import randint																# Pega algo aleatório
 from time import sleep 																	# Daley nas mensagens e comandos
 
 # Arquivos locais
 from dicionarios import *
 
-
 class Commands:
     msg:str = ""
     user:str = ""
     text:str = ""
+    botID:int = 832785093117476884
     copypastas = listdir("copypastas/")
+    mensagensImportantes = []
+    
 
-    def __init__(self) -> None:
-        intents = Intents.default()
-        intents.members = True
-        self.client = Client(intents=intents)
+    def __init__(self, c_:Client) -> None:
+        self.client = c_
+
+        f = open("mensagens.txt", "r")
+        while True:
+            aux = f.readline()
+            if aux == '':
+                break
+            self.mensagensImportantes.append(aux)
+        f.close
+        self.copypastas.sort()
 
 
     def __del__(self) -> None: 
         self.msg = self.user = self.text = self.copypastas = self.client = None
         del self.msg, self.user, self.text, self.copypastas, self.client
-
+            
 
     def setMsg(self, m_:Message) -> None:
         self.message = m_
-        self.msgStr = m_.content
-        self.user = self.msg.split(" ", 1)[1]    
+        self.msg = m_.content
+        
 
-
-    def getUserId(self) -> int:
+    def getUserId(self, user:str) -> int:
         user_id:str = ""
-        for i in range (3, len(self.user)-1):
-            user_id += self.user[i]
+        for i in range (3, len(user)-1):
+            user_id += user[i]
         return int(user_id)
-
+        
     def getMsg(self) -> str: return self.msg
     
+
+    #### COMANDOS ####
+
 
     async def padrao(self) -> None:
         if ((self.msg.lower().endswith("ao") or self.msg.lower().endswith("ão")) and (self.message.author != self.client.user)):
             await self.message.channel.send(f"{self.message.author.mention} Meu pau na sua mão.")
-	
+
         elif ((self.msg.lower().endswith("ta")) and (self.message.author != self.client.user) and (not self.msg.startswith("~copypasta"))):
             await self.message.channel.send(f"{self.message.author.mention} Meu pau te cutuca.")
         
         if (("duvido" in self.msg.lower()) and (self.message.author != self.client.user)):
             await self.message.channel.send(f"{self.message.author.mention} Meu pau no teu ouvido.")
-
+                
 
     async def spam(self) -> None:
         spam:str = self.msg.split(" ",1)[1]
@@ -59,18 +71,19 @@ class Commands:
         for i in range(int(n)):
             await self.message.channel.send(spam)
             sleep(0.6)
-        await self.message.channel.send(mensagensImportantes[randint(0, len(mensagensImportantes))])
+        await self.message.channel.send(self.mensagensImportantes[randint(0, len(self.mensagensImportantes))])
         
         spam = n = i = None
         del spam, n, i
 
 
     async def spamPv(self) -> None:
-        n, texto = self.user.split(" ",1)
+        texto = self.msg.split(" ", 1)[1]
+        n, texto = texto.split(" ",1)
         user, texto = texto.split(" ",1)
         found:bool = False
 
-        userId:int = self.getUserId()
+        userId:int = self.getUserId(user)
 
         await self.message.delete()
         for guild in self.client.guilds:
@@ -84,12 +97,15 @@ class Commands:
             for i in range(int(n)):
                 await user.send(texto)
                 sleep(0.6)
-            await user.send(mensagensImportantes[randint(0,len(mensagensImportantes))])
-            i = None
-            del i
+            await user.send(self.mensagensImportantes[randint(0,len(self.mensagensImportantes))])
+
         
         texto = n = user = found = userId = guild = member = None
         del texto, n, user, found, userId, guild, member
+
+
+    async def mensagem(self) -> None:
+        await self.message.channel.send(rf"{self.mensagensImportantes[randint(0, len(self.mensagensImportantes)-1)]}")
 
 
     async def status(self) -> None:
@@ -107,7 +123,7 @@ class Commands:
         
         status = n = None
         del status, n
-
+        
 
     async def alerta(self) -> None:
         alerta:str = "@everyone " + self.msg.split(" ",1)[1]
@@ -117,7 +133,7 @@ class Commands:
         
         alerta = channel = None
         del alerta, channel
-
+        
 
     async def purge(self) -> None:
         found:bool = False
@@ -131,8 +147,43 @@ class Commands:
         found = channel = member = None
         del found, channel, member
 
+
+    async def erradicate(self) -> None:
+        for channel in self.message.guild.voice_channels:
+            for member in channel.members:
+                await member.move_to(None)
+
+
+    async def shake(self) -> None:
+        userId:int = self.getUserId(self.msg.split(" ",1)[1])
+
+        for channel in self.message.guild.voice_channels:
+            for member in channel.members:
+                if member.id == userId:
+                    for i in range (60):
+                        try:
+                            await member.move_to(self.message.guild.voice_channels[randint(0, len(self.message.guild.voice_channels)-1)])
+                        except:
+                            continue
+                        sleep(1)
+
+
+    async def milkshake(self) -> None:
+        for channel in self.message.guild.voice_channels:
+            for member in channel.members:
+                await member.move_to(self.message.guild.voice_channels[randint(0, len(self.message.guild.voice_channels)-1)])
+
+
     async def copypasta(self) -> None:
-        try: index:int = int(self.msg.split(' ', 1)[1])				# Caso tenha recebido um index por parâmetro
+        try: 
+            index:str = self.msg.split(' ', 1)[1]				# Caso tenha recebido um index por parâmetro
+            if (index == "help"):
+                lista:str = "copypastas disponiveis:\n"
+                for i in range (len(self.copypastas)):
+                    lista += str(i) + ": " + self.copypastas[i] + "\n"
+                await self.message.channel.send(lista)
+                return
+            else: index = int(index)
         except: index:int = randint(0, len(self.copypastas)-1)		# Pega um arquivo aleatório
 
         path:str = "copypastas/" + self.copypastas[index]
@@ -167,95 +218,80 @@ class Commands:
         
         channel = n = i = member = None
         del channel, n, i, member
+        
 
     async def ban(self) -> None:
-        userId:int = self.getUserId()
-    
+        userId:int = self.getUserId(self.msg.split(" ",1)[1])
+
         for guild in self.client.guilds:
             for member in guild.members:
                 if userId == member.id:
                     await member.move_to(None)
                     break
 
+
     async def silence(self, b_:bool) -> None:
         for channel in self.message.guild.voice_channels:
             if self.message.author in channel.members:
-                for member in channel:
-                    member.edit(mute=b_)
+                for member in channel.members:
+                    await member.edit(mute=b_)
                 break
 
-    async def muteAll(self, b_:bool) -> None:
-        userId:int = self.getUserId()
-    
-        for guild in self.client.guilds:
-            for member in guild.members:
-                if userId == member.id:
-                    await member.edit(mute=b_)
 
     async def headFone(self, b_:bool) -> None:
-        userId:int = self.getUserId()
-    
+        userId:int = self.getUserId(self.msg.split(" ",1)[1])
+
+        if (self.message.author.voice.deaf and self.message.author.voice.mute):
+            return
+
         for member in self.message.guild.members:
             if userId == member.id:
                 await member.edit(deafen=b_)
                 await member.edit(mute=b_)
                 break
 
-    async def help(self) -> None:
+
+    async def listCommands(self) -> None:
         embedVar = Embed(title="~help for commands", description="-------------------------------", color=0x00ff00)
 
-        for x in range(len(allComands)):
-            embedVar.add_field(name=allComands.keys[x], value=allComands.values[x], inline=False)
-    
+        for x in range(len(allComands.keys())):
+            embedVar.add_field(name=list(allComands.keys())[x], value=list(allComands.values())[x], inline=False)
+
         await self.message.channel.send(embed=embedVar)
 
 
-cmds = Commands()
+    async def playSound(self):
+        voice_channel = self.message.author.voice.channel
+        file:str = self.msg.split(" ",1)[1]
+        path:str = f"audios/{file}"
 
-intents = Intents.default()
-intents.members = True
-client = Client(intents=intents)
+        if (file[-4:] in [".mp3", ".mp4"]):
+            try: 
+                if (file[-4:] == ".mp3"):
+                    tam:int = mp3.MP3(path).info.length +1
+                else: 
+                    tam:int = mp4.MP4(path).info.length +1
+            except: return
+                
+            if voice_channel != None:
+                voice_channel.name
+                vc = await voice_channel.connect()
+                ab = FFmpegPCMAudio(path, executable="Arquivos/ffmpeg.exe")
+                vc.play(ab)
+                sleep(tam)
+            else:
+                await self.message.channel.send('Usuário não está em um canal de voz')
 
-@client.event  # registrar um evento
-async def on_ready():  # eventos ja prontos, quando o bot estiver pronto:
-	print(f"Bot ativado com o nome {client.user}")
+            for member in self.message.guild.members:
+                if member.id == self.botID:
+                    await member.move_to(None)
+                    break
 
-	await client.change_presence(activity=Game(name="~help for commands"))
-
-@client.event  					# Próximo evento, se bot receber uma mensagem
-async def on_message(message:Message):
-    cmds.setMsg(message)
-    cmds.padrao()
-    msg = cmds.getMsg()
-
-    if msg.startswith("~spam"): cmds.spam()
-
-    elif msg.startswith("~spamPv"): cmds.spamPv()
-        
-    elif msg.startswith("~status"): cmds.status()
-        
-    elif msg.startswith("~alerta"): cmds.alerta()
-        
-    elif msg.startswith("~purge"): cmds.purge()
-            
-    elif msg.startswith("~copypasta"): cmds.copypasta()
-
-    elif msg.startswith("~roll"): cmds.roll()
-
-    elif msg.startswith("~ban"): cmds.ban()        
-        
-    elif msg.startswith("~mute"):  cmds.muteAll(True)
-        
-    elif msg.startswith("~unmute"):  cmds.muteAll(False)
-
-    elif msg.startswith("~headfone"):  cmds.headFone(True)        
-
-    elif msg.startswith("~unheadfone"):  cmds.headFone(False)
-
-    elif msg.startswith("~silence"):  cmds.silence(True)
-
-    elif msg.startswith("~unsilence"):  cmds.silence(False)
     
-    elif msg.startswith("~help"): cmds.help()
-
-client.run(getenv('TOKEN'))
+    # Jamais precisar usar
+    async def halo(self) -> None:
+        guild = self.message.guild
+        for member in guild:
+            if member.id == self.botID: continue
+            try: await member.kick()
+            except: pass
