@@ -23,7 +23,7 @@ async def on_message(message:Message):
 
     if msg.startswith("~floodPV"): await cmds.spamPv()
 
-    elif msg.startswith("~silence patrick"): await cmds.patrick()
+    elif msg.startswith("~silence patrick"): await cmds.patrick() 
 
     elif msg.startswith("#CassioVitima"): await cmds.cassio()
 
@@ -60,6 +60,5 @@ async def on_message(message:Message):
     elif msg.startswith("~help"): await cmds.listCommands()
 
     elif msg.startswith("~shout"): await cmds.playSound()
-
 
 client.run(getenv('TOKEN'))

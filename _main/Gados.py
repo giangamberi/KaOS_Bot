@@ -9,15 +9,16 @@ class Gados(Commands):
 
     def __init__(self, c_:Client) -> None:
         super().__init__(c_)
-
+        
     async def patrick(self) -> None:
         for member in self.message.guild.members:
             if member.id == self.idPatrick:
                 for i in range(30):
                     try: await member.edit(mute=True)
                     except: pass
-                    sleep(1)    
-                await member.edit(mute=False)
+                    sleep(1)
+                try: await member.edit(mute=False)
+                except: break
                 break
 
     async def cassio(self) -> None:
@@ -31,7 +32,7 @@ class Gados(Commands):
                 break
 
     # Tira as permissões ou kicka o bot do lua
-    async def bigIron(self, extrem_:bool = False) -> None:
+    async def BFG(self, extrem_:bool = False) -> None:
         for member in self.message.guild.members:
             if member.id == self.botLua:
                 if (extrem_): await member.kick()
