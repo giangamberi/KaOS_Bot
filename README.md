@@ -37,7 +37,7 @@ Um bot MUITO caótico do discord
 |~earthquake									|Mistura todos os integrantes de todas as salas e os embaralha. Show!|
 |~shake (@pessoa)								|Você amaldiçoou a pessoa a ficar trocando de canais de voz, a cada segundo. Por 1 minuto.|
 |~silence patrick								|Silencia o patrick.|
-|~shout <nomedoaudio>.mp3							|Solta a voz do bot.|
+|~shout (nomedoaudio).mp3							|Solta a voz do bot.|
 
 
 ## Código
