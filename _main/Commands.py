@@ -1,10 +1,11 @@
 ## Bibliotecas necessárias
 # Arquivos globais
-from discord import Client, Message, Embed, Game, Activity, ActivityType, FFmpegPCMAudio		# Configurações do dircord
-from mutagen import mp3, mp4                                                            # Mexe com audio
-from os import listdir 	 														        # Permitir import do Token de outro arquivo
-from random import randint																# Pega algo aleatório
-from time import sleep 																	# Daley nas mensagens e comandos
+from discord import Client, Message, Embed, Game, Activity, ActivityType, FFmpegPCMAudio    # Configurações do dircord
+from mutagen.mp3 import MP3                                                                 # Mexe com audio .mp3
+from mutagen.mp4 import MP4                                                                 # Mexe com audio .mp4
+from os import listdir 	 														            # Permitir import do Token de outro arquivo
+from random import randint																    # Pega algo aleatório
+from time import sleep 																	    # Daley nas mensagens e comandos
 
 # Arquivos locais
 from dicionarios import *
@@ -13,22 +14,25 @@ class Commands:
     msg:str = ""
     user:str = ""
     text:str = ""
+    userId:int = 0
     botID:int = 832785093117476884
     copypastas = listdir("copypastas/")
-    mensagensImportantes = []
+    mensagensImportantes:list = []
     
 
     def __init__(self, c_:Client) -> None:
         self.client = c_
 
-        f = open("mensagens.txt", "r")
+        f = open("arquivos/mensagens.txt", "r")
         while True:
             aux = f.readline()
-            if aux == '':
-                break
+            if aux == '': break
             self.mensagensImportantes.append(aux)
         f.close
         self.copypastas.sort()
+
+        f = aux = None
+        del f, aux
 
 
     def __del__(self) -> None: 
@@ -39,12 +43,14 @@ class Commands:
     def setMsg(self, m_:Message) -> None:
         self.message = m_
         self.msg = m_.content
+        try: self.userId = self.getUserId(self.msg.split(" ",1)[1])
+        except: pass
         
 
-    def getUserId(self, user:str) -> int:
+    def getUserId(self, user_:str) -> int:
         user_id:str = ""
-        for i in range (3, len(user)-1):
-            user_id += user[i]
+        for i in range (3, len(user_)-1):
+            user_id += user_[i]
         return int(user_id)
         
     def getMsg(self) -> str: return self.msg
@@ -71,7 +77,7 @@ class Commands:
         for i in range(int(n)):
             await self.message.channel.send(spam)
             sleep(0.6)
-        await self.message.channel.send(self.mensagensImportantes[randint(0, len(self.mensagensImportantes))])
+        await self.mensagem()
         
         spam = n = i = None
         del spam, n, i
@@ -105,7 +111,7 @@ class Commands:
 
 
     async def mensagem(self) -> None:
-        await self.message.channel.send(rf"{self.mensagensImportantes[randint(0, len(self.mensagensImportantes)-1)]}")
+        await self.message.channel.send(self.mensagensImportantes[randint(0, len(self.mensagensImportantes)-1)])
 
 
     async def status(self) -> None:
@@ -131,21 +137,20 @@ class Commands:
         for channel in self.message.guild.text_channels:
             await channel.send(alerta)
         
-        alerta = channel = None
-        del alerta, channel
+        alerta = None
+        del alerta
         
 
     async def purge(self) -> None:
         found:bool = False
-        
         for channel in self.message.guild.voice_channels:			# Percorre os canais
             if self.message.author in channel.members:				# Acha quem mandou a mensagem
                 for member in channel.members:					# Pega todos os membros
                     await member.move_to(None)					# Tira todos
                 break
         
-        found = channel = member = None
-        del found, channel, member
+        found = None
+        del found
 
 
     async def erradicate(self) -> None:
@@ -155,16 +160,13 @@ class Commands:
 
 
     async def shake(self) -> None:
-        userId:int = self.getUserId(self.msg.split(" ",1)[1])
-
         for channel in self.message.guild.voice_channels:
             for member in channel.members:
-                if member.id == userId:
+                if member.id == self.userId:
                     for i in range (60):
                         try:
                             await member.move_to(self.message.guild.voice_channels[randint(0, len(self.message.guild.voice_channels)-1)])
-                        except:
-                            continue
+                        except: continue
                         sleep(1)
 
 
@@ -188,8 +190,7 @@ class Commands:
 
         path:str = "copypastas/" + self.copypastas[index]
         
-        doc = open(path,"r")
-        
+        doc = open(path, "r")
         while True:
             aux:str = doc.readline()
             if aux == "": break
@@ -216,16 +217,14 @@ class Commands:
                     i += 1
                 break
         
-        channel = n = i = member = None
-        del channel, n, i, member
+        n = i = None
+        del n, i
         
 
     async def ban(self) -> None:
-        userId:int = self.getUserId(self.msg.split(" ",1)[1])
-
         for guild in self.client.guilds:
             for member in guild.members:
-                if userId == member.id:
+                if self.userId == member.id:
                     await member.move_to(None)
                     break
 
@@ -239,17 +238,15 @@ class Commands:
 
 
     async def headFone(self, b_:bool) -> None:
-        userId:int = self.getUserId(self.msg.split(" ",1)[1])
-
         if (self.message.author.voice.deaf and self.message.author.voice.mute):
             return
 
         for member in self.message.guild.members:
-            if userId == member.id:
+            if self.userId == member.id:
                 await member.edit(deafen=b_)
                 await member.edit(mute=b_)
                 break
-
+        
 
     async def listCommands(self) -> None:
         embedVar = Embed(title="~help for commands", description="-------------------------------", color=0x00ff00)
@@ -258,6 +255,9 @@ class Commands:
             embedVar.add_field(name=list(allComands.keys())[x], value=list(allComands.values())[x], inline=False)
 
         await self.message.channel.send(embed=embedVar)
+
+        embedVar = None
+        del embedVar
 
 
     async def playSound(self):
@@ -268,17 +268,17 @@ class Commands:
         if (file[-4:] in [".mp3", ".mp4"]):
             try: 
                 if (file[-4:] == ".mp3"):
-                    tam:int = mp3.MP3(path).info.length +1
+                    tam:int = MP3(path).info.length +1
                 else: 
-                    tam:int = mp4.MP4(path).info.length +1
+                    tam:int = MP4(path).info.length +1
             except: return
                 
             if voice_channel != None:
-                voice_channel.name
                 vc = await voice_channel.connect()
-                ab = FFmpegPCMAudio(path, executable="Arquivos/ffmpeg.exe")
-                vc.play(ab)
+                vc.play(FFmpegPCMAudio(path, executable="Arquivos/ffmpeg.exe"))
                 sleep(tam)
+                vc = None
+                del vc
             else:
                 await self.message.channel.send('Usuário não está em um canal de voz')
 
@@ -286,12 +286,14 @@ class Commands:
                 if member.id == self.botID:
                     await member.move_to(None)
                     break
+        
+        voice_channel = file = path = tam = None
+        del voice_channel, file, path, tam
 
     
     # Jamais precisar usar
     async def halo(self) -> None:
-        guild = self.message.guild
-        for member in guild:
+        for member in self.message.guild:
             if member.id == self.botID: continue
             try: await member.kick()
             except: pass
