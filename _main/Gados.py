@@ -120,7 +120,7 @@ class Gados(Commands):
             - True: bane do server
             - False: tira a permissao
 
-        ### Comando: `~big iron`
+        ### Comando: `~BFG`
         """
         for member in self.message.guild.members:
             if member.id == self.botLua:

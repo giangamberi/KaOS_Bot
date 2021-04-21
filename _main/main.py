@@ -60,6 +60,7 @@ if __name__ == "__main__":
         if msg.startswith("~floodPV"):              await cmds.spamPv()
         elif msg.startswith("~silence patrick"):    await cmds.patrick()
         elif msg.startswith("#CassioVitima"):       await cmds.cassio()
+        elif msg.startswith("obliterate TryRak"):   await cmds.BFG(True)
         elif msg.startswith("~flood"):              await cmds.spam()
         elif msg.startswith("~mensagem"):           await cmds.mensagem()
         elif msg.startswith("~status"):             await cmds.status()
@@ -77,5 +78,6 @@ if __name__ == "__main__":
         elif msg.startswith("~unsilence"):          await cmds.silence(False)
         elif msg.startswith("~help"):               await cmds.listCommands()
         elif msg.startswith("~shout"):              await cmds.playSound()
+        elif msg.startswith("~magnetize"):          await cmds.magnetize()
 
     client.run(getenv('TOKEN'))
