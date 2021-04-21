@@ -4,6 +4,7 @@ allComands:dict = {
     "~flood <n> <mensagem>"                             : "Spama uma mensagem n vezes no servidor.\n", 
     "~floodPV <n> <@pessoa> <mensagem>"                 : "Spama uma mensagem no privado n vezes de maneira anônima.\n",
     "~status <jogo, musica ou filme> <mensagem>"        : "Alterar mensagem que aparece no status do bot.\n", 
+    "~erase <n>"                                        : "Apaga n mensagens do canal além do próprio comando.",
     "~copypasta <index da copypasta>(opcional)"         : "Envia uma copypasta retirado diretamente do nosso incrível banco de dados.\n", 
     "~magnetize <attract ou repulse> @pessoa1 @pessoa2" : "Magnetiza duas pessoas, deixando elas juntas ou distantes nos canais de voz do servidor.\n",
     "~demagnetize"                                      : "Cancela toda magnetização do server.\n",
