@@ -32,8 +32,10 @@ SOFTWARE.
 
 ## Bibliotecas necessárias
 # Arquivos globais
-from discord import Client, Message, Embed, Game, Activity, ActivityType, FFmpegPCMAudio    # Configurações do dircord
-import discord
+
+from discord import Client, Member, Message, Colour, Guild, Embed, Game, Activity, ActivityType, FFmpegPCMAudio    # Configurações do dircord
+
+# import discord
 from mutagen.mp3 import MP3                                                                 # Mexe com audio .mp3
 from mutagen.mp4 import MP4                                                                 # Mexe com audio .mp4
 from os import listdir 	 														            # Permitir import do Token de outro arquivo
@@ -76,9 +78,9 @@ class Commands:
     | mensagem        | Manda uma mensagem entre as frases reservadas.                                  |
     | status          | Alterar status do bot.                                                          |
     | alerta          | Envia uma mensagem de alerta marcando todo mundo, em todos os canais do server. |
-    | magnetize       | "magnetiza" duas pessoas nos canais de voz de um servidor                       |
-    | attract         | mantém no mesmo canal de voz duas pessoas distintas                             |
-    | repulse         | mantém o mais distante possível duas pessoas distintas dos canais de voz        |
+    | magnetize       | Junta ou distancia duas pessoas nos canais de voz de um servidor                |
+    | attract         | Mantém no mesmo canal de voz duas pessoas distintas                             |
+    | repulse         | Mantém o mais distante possível duas pessoas distintas dos canais de voz        |
     | purge           | Tira todo mundo do canal de voz.                                                |
     | erradicate      | Tira todo mundo de todos os canais de voz do server.                            |
     | shake           | Fica movendo uma usuário entre os canais de voz por 1 minuto.                   |
@@ -325,18 +327,18 @@ class Commands:
 
     async def magnetize(self) -> None:
         r"""
-        ## magnetize
-        "magnetiza" duas pessoas, mantendo elas sempre juntas ou afastadas
+        ## Magnetize
+        Junta ou distancia duas pessoas, mantendo elas sempre juntas ou afastadas.
 
         ### Comando: `~magnetiza tipo @pessoa1 @pessoa2`
         :class:`str` tipo: attract/repulse
-        :class:`member` @pessoa1/2: membro que vai ser magnetizado.
+        :class:`member` @pessoa1/2: membros que vai ser magnetizado.
         """
         relation:str = self.msg.split(" ", 1)[1]
         relation,userA,userB = relation.split(" ",2)
         relation.lower()
-        userA = self.getUserId(userA)
-        userB = self.getUserId(userB)
+        userA:int = self.getUserId(userA)
+        userB:int = self.getUserId(userB)
         
         for channel in self.message.guild.voice_channels:
             for member in channel.members:
@@ -345,32 +347,31 @@ class Commands:
                 elif (member.id == userB):
                     userB = member
 
-        if ((type(userA) is not discord.Member) or (type(userB) is not discord.Member) or (relation != "attract" and relation != "repulse")):
+        if ((type(userA) is not Member) or (type(userB) is not Member) or (relation != "attract" and relation != "repulse")):
             await self.message.channel.send("Formato Invalido")
             return
 
         if (relation == "attract"):
-            await self.attract(userA,userB,self.message.guild)
+            await self.attract(userA, userB, self.message.guild)
         elif (relation == "repulse"):
-            await self.repulse(userA,userB,self.message.guild)
+            await self.repulse(userA, userB, self.message.guild)
 
-    async def attract(self, userA:discord.Member, userB:discord.Member, server:discord.Guild) -> None:
+    async def attract(self, userA:Member, userB:Member, server:Guild) -> None:
         r"""
-        ## attract
-        Função auxiliar que gera um loop que mantém duas pessoas sempre juntas no canal
+        ## Attract
+        Função auxiliar que gera um loop que mantém duas pessoas sempre juntas no canal.
+
         ### Comando: `~demagnetize`
-        cancela a atração, alternativa seria sair do servidor
+        Cancela a atração, outra alternativa seria sair do servidor.
         """
         await self.message.channel.send("Attract ligado")
-        while not self.msg.startswith("~demagnetize"):
-            try:
-                await userB.move_to(userA.voice.channel)
-            except:
-                break
+        while (not self.msg.startswith("~demagnetize")):
+            try: await userB.move_to(userA.voice.channel)
+            except: break
             sleep(0.25)
         await self.message.channel.send("Attract cancelado")
     
-    async def repulse(self, userA:discord.Member, userB:discord.Member, server:discord.Guild) -> None:
+    async def repulse(self, userA:Member, userB:Member, server:Guild) -> None:
         r"""
         ## repulse
         Função auxiliar que gera um loop que afasta dois usuarios de um server
@@ -378,12 +379,11 @@ class Commands:
         cancela a repulsão, alternativa seria sair do servidor
         """
         await self.message.channel.send("Repulse ligado")
-        while not self.msg.startswith("~demagnetize"):
+        while (not self.msg.startswith("~demagnetize")):
             try:
                 await userA.move_to(server.voice_channels[0])
                 await userB.move_to(server.voice_channels[len(server.voice_channels)-1])
-            except:
-                break
+            except: break
             sleep(0.25)
         await self.message.channel.send("Repulse cancelado")
 
@@ -565,7 +565,7 @@ class Commands:
     async def listCommands(self) -> None:
 
         #define a cor que voce quer
-        cor  = discord.Colour.from_rgb(255,102,102)
+        cor  = Colour.from_rgb(255, 102, 102)
 
         embedVar = Embed(title="~help para ter os comandos", description="Para voce infernizar seus amigos", colour=cor, )
         
