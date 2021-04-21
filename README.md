@@ -19,6 +19,7 @@ Um bot *MUITO* caótico do discord.
 |                      Comandos                         |                                              Descrição                                            |
 |-------------------------------------------------------|---------------------------------------------------------------------------------------------------|
 |~help 							|Mostrar comandos do bot.|
+|~mensagem 						|Manda uma mensagem aleatória inpiradora.|
 |~flood (n) (mensagem)					|Spamar uma mensagem n vezes no servidor. |
 |~floodPV (n) (@pessoa) (mensagem)			|Spamar uma mensagem n vezes no privado de alguém de forma anônima.|
 |~status (ogo, musica ou filme) (mensagem)		|Alterar status do bot.|
@@ -41,18 +42,22 @@ Um bot *MUITO* caótico do discord.
 Baixando a pasta [_main](https://github.com/giangamberi/KaOS_Bot/tree/main/_main) você consegue ter acesso ao código. Os pré-requisitos para rodar estão declaradas na parte de [Requerimentos](#requerimentos). Para executar o programa basta rodar o arquivo ```main.py```.
 
 ## Requerimentos
-O programa usa algumas biblioteca externas:
-- [Discord](https://pypi.org/project/discord.py/): uso da [api](https://discordpy.readthedocs.io/en/latest/api.html) do discord para suporte com python.
+1. O programa usa algumas biblioteca externas:
+	- [Discord](https://pypi.org/project/discord.py/): uso da [api](https://discordpy.readthedocs.io/en/latest/api.html) do discord para suporte com python.
 
-    	pip install discord
-    
-- [Mutagen](https://pypi.org/project/mutagen/): suporte para áudio.
- 
-    	pip install mutagen
-    
-- [PyNaCl](https://pypi.org/project/PyNaCl/): suporte para remoção de pessoas e saída de som do bot.
+			pip install discord
 
-    	pip install PyNaCl
+	- [Mutagen](https://pypi.org/project/mutagen/): suporte para áudio.
+
+			pip install mutagen
+
+	- [PyNaCl](https://pypi.org/project/PyNaCl/): suporte para remoção de pessoas e saída de som do bot.
+
+			pip install PyNaCl
+
+2. Token: no aquivo [.env](https://github.com/giangamberi/KaOS_Bot/blob/main/_main/.env) precisa colocar o token do bot.
+	
+    	TOKEN="CódigoDoToken"
 
 ## Documentação
 Em breve uma documentação será criada na [wiki](https://github.com/giangamberi/KaOS_Bot/wiki) do repositório.
