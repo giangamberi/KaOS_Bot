@@ -10,7 +10,7 @@ allComands:dict = {
     "~yall <mensagem>"                                  : "Envia uma mensagem de alerta marcando todos, em todos os canais do server.\n", 
     "~roullete"                                         : "Brinque de roleta russa e remova alguem aleatoriamente do canal.\n", 
     "~purge"                                            : "Diversão! Manda todo mundo que tá na call pro caralho.\n", 
-    "~erradicate"                                       : "Oh não! Um tiroteio ocorreu no server, ninguém em call permaneceu.\n",
+    "~erradicate"                                       : "MAIS DIVERSÃO! Disconecta TODO MUNDO de TODAS AS CALLS.\n",
     "~deafen @pessoa"                                   : "Tira os 5 sentidos da pessoa na call.\n", 
     "~undeafen @pessoa"                                 : "Volta o som e o mic da pessoa. Booooo!!\n", 
     "~silence"                                          : "Cala a boca de todo mundo.\n", 
