@@ -75,6 +75,7 @@ class Commands:
     | padrao          | Verifica se tem palavras que na frase que manda alguma resposta.                |
     | spam            | Spamar uma mensagem n vezes no servidor.                                        |
     | spamPv          | Spamar uma mensagem n vezes no privado de alguém de forma anônima.              |
+    | erase           | Apaga n+1 mensagens do canal onde foi mandado.                                  |
     | mensagem        | Manda uma mensagem entre as frases reservadas.                                  |
     | status          | Alterar status do bot.                                                          |
     | alerta          | Envia uma mensagem de alerta marcando todo mundo, em todos os canais do server. |
@@ -272,6 +273,12 @@ class Commands:
         texto = n = user = found = userId = guild = member = None
         del texto, n, user, found, userId, guild, member
 
+    async def erase(self) -> None:
+        r"""
+        """
+        channel = self.message.channel
+        n:int = int(self.msg.split(" ",1)[1])
+        await channel.purge(limit=n+1)
 
     async def mensagem(self) -> None:
         r"""
