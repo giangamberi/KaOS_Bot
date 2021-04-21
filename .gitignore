@@ -1,2 +1,8 @@
 ## Tirando os arquivo photoshop
 *.psd
+
+## Tirando os arquivos cache
+*__
+
+## Tirando a pasta .vscode
+#*.vscode
