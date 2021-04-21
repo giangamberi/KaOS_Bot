@@ -1,8 +1,13 @@
 ## Tirando os arquivo photoshop
 *.psd
+*.ai
 
 ## Tirando os arquivos cache
 *__
+
+## Tirando arquivos antigos
+Arquivos/Imagens/Logo/Antigos
+Arquivos/Imagens/Logo/imagens
 
 ## Tirando a pasta .vscode
 #*.vscode
