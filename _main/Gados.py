@@ -96,16 +96,7 @@ class Gados(Commands):
         ### Comando: `#CassioVitima`
         """
         self.setUserId(self.idCassio)
-        self.shake()
-
-        # for member in self.message.guild.members:
-        #     if member.id == self.idCassio:
-        #         for i in range (30):
-        #             try: await member.move_to(None)
-        #             except: pass
-        #             sleep(1)
-        #         await member.move_to(None)
-        #         break
+        await self.shake()
 
 
     # Tira as permissões ou kicka o bot do lua

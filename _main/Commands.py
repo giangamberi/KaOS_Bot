@@ -33,9 +33,8 @@ SOFTWARE.
 ## Bibliotecas necessárias
 # Arquivos globais
 
-from discord import Client, Member, Message, Colour, Guild, Embed, Game, Activity, ActivityType, FFmpegPCMAudio    # Configurações do dircord
-
-# import discord
+# Configurações do discord
+from discord import Client, Member, Message, Colour, Guild, Embed, Game, Activity, ActivityType, FFmpegPCMAudio
 from mutagen.mp3 import MP3                                                                 # Mexe com audio .mp3
 from mutagen.mp4 import MP4                                                                 # Mexe com audio .mp4
 from os import listdir 	 														            # Permitir import do Token de outro arquivo
@@ -75,7 +74,7 @@ class Commands:
     | padrao          | Verifica se tem palavras que na frase que manda alguma resposta.                |
     | spam            | Spamar uma mensagem n vezes no servidor.                                        |
     | spamPv          | Spamar uma mensagem n vezes no privado de alguém de forma anônima.              |
-    | erase           | Apaga n+1 mensagens do canal onde foi mandado.                                  |
+    | erase           | Apaga n mensagens do canal onde foi mandado, além do próprio comando.           |
     | mensagem        | Manda uma mensagem entre as frases reservadas.                                  |
     | status          | Alterar status do bot.                                                          |
     | alerta          | Envia uma mensagem de alerta marcando todo mundo, em todos os canais do server. |
@@ -171,9 +170,9 @@ class Commands:
                 self.userId = self.getUserId(self.msg.split(" ",1)[1])
             else: 
                 self.userId = id_
-        except: pass
+        except: self.userId = 0
+            
         
-
     def getUserId(self, user_:str) -> int:
         r"""
         ## Getter -> userId
@@ -183,14 +182,12 @@ class Commands:
 
         :class:`str` user_: Usuario pra pegar o ip
         """
-        user_id:str = ""
-        for i in range (3, len(user_)-1):
-            user_id += user_[i]
-        return int(user_id)
+        return (int(user_[3:-1]))
         
     
 
     #### COMANDOS ####
+
 
 
     async def padrao(self) -> None:
@@ -273,12 +270,19 @@ class Commands:
         texto = n = user = found = userId = guild = member = None
         del texto, n, user, found, userId, guild, member
 
+
     async def erase(self) -> None:
         r"""
+        ## Erase
+        Apaga n mensagens no mesmo canal que o comando foi digitado mais o próprio comando.
+
+        ### Comando: `~erase n`
+        :class:`int` n: quantidade de mensagens que vão ser apagadas.
         """
         channel = self.message.channel
         n:int = int(self.msg.split(" ",1)[1])
         await channel.purge(limit=n+1)
+
 
     async def mensagem(self) -> None:
         r"""
@@ -342,26 +346,23 @@ class Commands:
         :class:`member` @pessoa1/2: membros que vai ser magnetizado.
         """
         relation:str = self.msg.split(" ", 1)[1]
-        relation,userA,userB = relation.split(" ",2)
-        relation.lower()
+        relation, userA, userB = relation.split(" ",2)
+        relation = relation.lower()
         userA:int = self.getUserId(userA)
         userB:int = self.getUserId(userB)
         
         for channel in self.message.guild.voice_channels:
             for member in channel.members:
-                if (member.id == userA):
-                    userA = member
-                elif (member.id == userB):
-                    userB = member
+                if (member.id == userA):   userA = member
+                elif (member.id == userB): userB = member
 
         if ((type(userA) is not Member) or (type(userB) is not Member) or (relation != "attract" and relation != "repulse")):
             await self.message.channel.send("Formato Invalido")
             return
 
-        if (relation == "attract"):
-            await self.attract(userA, userB, self.message.guild)
-        elif (relation == "repulse"):
-            await self.repulse(userA, userB, self.message.guild)
+        if (relation == "attract"):     await self.attract(userA, userB, self.message.guild)
+        elif (relation == "repulse"):   await self.repulse(userA, userB, self.message.guild)
+
 
     async def attract(self, userA:Member, userB:Member, server:Guild) -> None:
         r"""
@@ -377,13 +378,15 @@ class Commands:
             except: break
             sleep(0.25)
         await self.message.channel.send("Attract cancelado")
-    
+
+
     async def repulse(self, userA:Member, userB:Member, server:Guild) -> None:
         r"""
-        ## repulse
-        Função auxiliar que gera um loop que afasta dois usuarios de um server
+        ## Repulse
+        Função auxiliar que gera um loop que afasta dois usuários de um server.
+
         ### Comando: `~demagnetize`
-        cancela a repulsão, alternativa seria sair do servidor
+        Cancela a repulsão, outra alternativa seria sair do servidor.
         """
         await self.message.channel.send("Repulse ligado")
         while (not self.msg.startswith("~demagnetize")):
@@ -393,6 +396,7 @@ class Commands:
             except: break
             sleep(0.25)
         await self.message.channel.send("Repulse cancelado")
+
 
     async def purge(self) -> None:
         r"""
@@ -406,6 +410,7 @@ class Commands:
                 for member in channel.members:
                     await member.move_to(None)
                 break
+
 
     async def erradicate(self) -> None:
         r"""
@@ -559,16 +564,15 @@ class Commands:
 
         ### Comando: `~deafen` ou `~undeafen`
         """
-        if (self.message.author.voice.deaf and self.message.author.voice.mute):
-            return
+        if (self.message.author.voice.deaf and self.message.author.voice.mute): return
 
         for member in self.message.guild.members:
             if self.userId == member.id:
                 await member.edit(deafen=b_)
                 await member.edit(mute=b_)
                 break
-        
 
+        
     async def listCommands(self) -> None:
 
         #define a cor que voce quer

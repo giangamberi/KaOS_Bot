@@ -1,10 +1,10 @@
 # KaOS_Bot
 [![Versão](https://img.shields.io/badge/version-v1.0-orange)](https://github.com/giangamberi/KaOS_Bot/releases/tag/v1.0)
-![Plataformas](https://img.shields.io/badge/plataforma-Windows-lightgrey?logo=windows)
+![Plataforma](https://img.shields.io/badge/plataforma-Windows-lightgrey?logo=windows)
 [![Versão python](https://img.shields.io/badge/python-v3.8.5-blue?logo=python)](https://www.python.org/downloads/release/python-385/)
 [![Licença](https://img.shields.io/badge/license-MIT-brightgreen?)](https://github.com/giangamberi/KaOS_Bot/blob/main/LICENSE)
 
-![capa](https://github.com/giangamberi/KaOS_Bot/blob/main/Arquivos/Imagens/Logo/capa.png)
+![capa](https://github.com/giangamberi/KaOS_Bot/blob/main/Arquivos/Imagens/Logo/Logo-retangulo.jpg)
 
 Um bot *MUITO* caótico do discord.
 
@@ -23,7 +23,10 @@ Um bot *MUITO* caótico do discord.
 |~flood (n) (mensagem)					|Spamar uma mensagem n vezes no servidor. |
 |~floodPV (n) (@pessoa) (mensagem)			|Spamar uma mensagem n vezes no privado de alguém de forma anônima.|
 |~status (ogo, musica ou filme) (mensagem)		|Alterar status do bot.|
+|~erase (n) 						|Apaga n mensagens do canal além do próprio comando.|
 |~copypasta (opcional: index da copypasta)		|Envia uma copypasta retirado diretamente do nosso incrível banco de dados.|
+|~magnetize <attract ou repulse> @pessoa1 @pessoa2 	|Magnetiza duas pessoas, deixando elas juntas ou distantes nos canais de voz do servidor.|
+|"~demagnetize"                                         |Cancela toda magnetização do server.|
 |~yall (mensagem)					|Envia uma mensagem de alerta marcando todo mundo, em todos os canais do server.|
 |~roullette						|Brinque de roleta russa e remova alguém aleatoriamente do canal.|
 |~purge							|Diversão! Manda todo mundo que tá na call pro caralho.|
