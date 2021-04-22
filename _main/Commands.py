@@ -50,7 +50,7 @@ class Commands:
 
     ## Parâmetros
     
-    :class:`discord.Client` c_: Recebe o cliente conectado ao Discord para a partir dele fazer as operações.
+    :class:`discord.Client` c_: Recebe o cliente conectado no Discord para a partir dele fazer as operações.
 
     ## Atributos
     
@@ -65,35 +65,35 @@ class Commands:
     
     ## Métodos
     
-    |    Métodos      |                                    Descrição                                    |
-    |:----------------|:--------------------------------------------------------------------------------|
-    | setMsg          | Define a mensagem string.                                                       |
-    | getMsg          | Retorna a mensagem em string.                                                   |  
-    | setUserId       | Define o id de um usuário.                                                      |
-    | getUserId       | Retorna o id de um usuário .                                                    |
-    | padrao          | Verifica se tem palavras que na frase que manda alguma resposta.                |
-    | spam            | Spamar uma mensagem n vezes no servidor.                                        |
-    | spamPv          | Spamar uma mensagem n vezes no privado de alguém de forma anônima.              |
-    | erase           | Apaga n mensagens do canal onde foi mandado, além do próprio comando.           |
-    | mensagem        | Manda uma mensagem entre as frases reservadas.                                  |
-    | status          | Alterar status do bot.                                                          |
-    | alerta          | Envia uma mensagem de alerta marcando todo mundo, em todos os canais do server. |
-    | magnetize       | Junta ou distancia duas pessoas nos canais de voz de um servidor                |
-    | attract         | Mantém no mesmo canal de voz duas pessoas distintas                             |
-    | repulse         | Mantém o mais distante possível duas pessoas distintas dos canais de voz        |
-    | purge           | Tira todo mundo do canal de voz.                                                |
-    | erradicate      | Tira todo mundo de todos os canais de voz do server.                            |
-    | shake           | Fica movendo uma usuário entre os canais de voz por 1 minuto.                   |
-    | milkshake       | Muda todo mundo do server de canal aleatoriamente.                              |
-    | copypastas      | Manda algum texto de algum copypasta.                                           |
-    | roll            | Tira alguém do canal aleatóriamente.                                            |
-    | ban             | Desconecta alguém do server.                                                    |
-    | silence         | Silencia ou desilencia todos do canal de voz.                                   |
-    | headfone        | Tira/coloca áudio e mic de alguém.                                              |
-    | listCommands    | Mostra todos os comandos.                                                       |
-    | playSounds      | Reproduz um áudio já salvo na pasta.                                            |
-    | halo            | ATENÇÃO: Tira todo mundo do server, deixando apenas o adm e o bot.              |
-    |-----------------|---------------------------------------------------------------------------------|
+    |    Métodos    |                                    Descrição                                    |
+    |:--------------|:--------------------------------------------------------------------------------|
+    | setMsg        | Define a mensagem string.                                                       |
+    | getMsg        | Retorna a mensagem em string.                                                   |  
+    | setUserId     | Define o id de um usuário.                                                      |
+    | getUserId     | Retorna o id de um usuário .                                                    |
+    | padrao        | Verifica se tem palavras que na frase que manda alguma resposta.                |
+    | spam          | Spamar uma mensagem n vezes no servidor.                                        |
+    | spamPv        | Spamar uma mensagem n vezes no privado de alguém de forma anônima.              |
+    | erase         | Apaga n mensagens do canal onde foi mandado, além do próprio comando.           |
+    | mensagem      | Manda uma mensagem entre as frases reservadas.                                  |
+    | status        | Alterar status do bot.                                                          |
+    | alerta        | Envia uma mensagem de alerta marcando todo mundo, em todos os canais do server. |
+    | magnetize     | Junta ou distancia duas pessoas nos canais de voz de um servidor                |
+    | attract       | Mantém no mesmo canal de voz duas pessoas distintas                             |
+    | repulse       | Mantém o mais distante possível duas pessoas distintas dos canais de voz        |
+    | purge         | Tira todo mundo do canal de voz.                                                |
+    | erradicate    | Tira todo mundo de todos os canais de voz do server.                            |
+    | shake         | Fica movendo uma usuário entre os canais de voz por 1 minuto.                   |
+    | milkshake     | Muda todo mundo do server de canal aleatoriamente.                              |
+    | copypastas    | Manda algum texto de algum copypasta.                                           |
+    | roll          | Tira alguém do canal aleatóriamente.                                            |
+    | ban           | Desconecta alguém do server.                                                    |
+    | silence       | Silencia ou desilencia todos do canal de voz.                                   |
+    | headfone      | Tira/coloca áudio e mic de alguém.                                              |
+    | listCommands  | Mostra todos os comandos.                                                       |
+    | playSounds    | Reproduz um áudio já salvo na pasta.                                            |
+    | halo          | ATENÇÃO: Tira todo mundo do server, deixando apenas o adm e o bot.              |
+    |---------------|---------------------------------------------------------------------------------|
     """
 
     msg:str = ""
@@ -279,11 +279,9 @@ class Commands:
         ### Comando: `~erase n`
         :class:`int` n: quantidade de mensagens que vão ser apagadas.
         """
-        channel = self.message.channel
-        n:int = int(self.msg.split(" ",1)[1])
-        await channel.purge(limit=n+1)
+        await self.message.channel.purge(limit=int(self.msg.split(" ",1)[1])+1)
 
-
+    
     async def mensagem(self) -> None:
         r"""
         ## Mensagem aleatória
@@ -327,13 +325,8 @@ class Commands:
         ### Comando: `~yall mensagem`
         :class:`str` mensagem: mensagem que vai ser mandada.
         """
-        alerta:str = "@everyone " + self.msg.split(" ",1)[1]
-
         for channel in self.message.guild.text_channels:
-            await channel.send(alerta)
-        
-        alerta = None
-        del alerta
+            await channel.send("@everyone " + self.msg.split(" ",1)[1])
 
 
     async def magnetize(self) -> None:
@@ -342,61 +335,69 @@ class Commands:
         Junta ou distancia duas pessoas, mantendo elas sempre juntas ou afastadas.
 
         ### Comando: `~magnetiza tipo @pessoa1 @pessoa2`
-        :class:`str` tipo: attract/repulse
-        :class:`member` @pessoa1/2: membros que vai ser magnetizado.
+        :class:`str` tipo: attract/a ou repulse/r
+        :class:`member` @pessoa1/2: membros que vai ser magnetizado; A pessoa 2 segue/afasta da pessoa 1.
         """
-        relation:str = self.msg.split(" ", 1)[1]
-        relation, userA, userB = relation.split(" ",2)
-        relation = relation.lower()
-        userA:int = self.getUserId(userA)
-        userB:int = self.getUserId(userB)
-        
+        # Pega as informações do comando
+        relation:str = ""
+        try:                                        # Tenta pegar as informações
+            msg:str = self.msg.split()
+            relation = msg[1].lower()
+            userA:int = self.getUserId(msg[2])
+            userB:int = self.getUserId(msg[3])
+        except:                                     # Erro no comando que foi digitado
+            await self.message.channel.send("Você é burro e não sabe escrever.\nO comando certo é: ~magnetize attract/repulse @pessoa1 @pessoa2")
+            return
+        finally:                                    # Verifica se está correto
+            if (relation not in ["attract", "a", "repulse", "r"]):
+                await self.message.channel.send(f"{relation} está escrito errado. (Certo: attract/a ou repulse/r)")
+                return
+
+        # Procura os usuários nos canais de voz.
+        cont:int = 0
         for channel in self.message.guild.voice_channels:
             for member in channel.members:
-                if (member.id == userA):   userA = member
-                elif (member.id == userB): userB = member
+                if (member.id == userA):   
+                    userA = member
+                    cont += 1
+                elif (member.id == userB): 
+                    userB = member
+                    cont += 1
 
-        if ((type(userA) is not Member) or (type(userB) is not Member) or (relation != "attract" and relation != "repulse")):
-            await self.message.channel.send("Formato Invalido")
+                if (cont == 2): break
+            else: continue
+            break
+
+        # Não encontrou os usuários.
+        if (cont != 2):
+            await self.message.channel.send("Usuário não foi marcado corretamente.")
             return
 
-        if (relation == "attract"):     await self.attract(userA, userB, self.message.guild)
-        elif (relation == "repulse"):   await self.repulse(userA, userB, self.message.guild)
+        await self.magnetizeAct(userA, userB, self.message.guild, relation)
 
-
-    async def attract(self, userA:Member, userB:Member, server:Guild) -> None:
+        relation = msg = userA = userB = cont = None
+        del relation, msg, userA, userB, cont
+        
+        
+    async def magnetizeAct(self, userA_:Member, userB_:Member, server_:Guild, tipo_:str) -> None:
         r"""
-        ## Attract
-        Função auxiliar que gera um loop que mantém duas pessoas sempre juntas no canal.
+        ## Ação do magnetize
+        Fução auxiliar que faz a ação deixar sempre duas pessoas juntas (attract) ou afastadas (repulse).
 
         ### Comando: `~demagnetize`
         Cancela a atração, outra alternativa seria sair do servidor.
         """
-        await self.message.channel.send("Attract ligado")
-        while (not self.msg.startswith("~demagnetize")):
-            try: await userB.move_to(userA.voice.channel)
-            except: break
-            sleep(0.25)
-        await self.message.channel.send("Attract cancelado")
-
-
-    async def repulse(self, userA:Member, userB:Member, server:Guild) -> None:
-        r"""
-        ## Repulse
-        Função auxiliar que gera um loop que afasta dois usuários de um server.
-
-        ### Comando: `~demagnetize`
-        Cancela a repulsão, outra alternativa seria sair do servidor.
-        """
-        await self.message.channel.send("Repulse ligado")
-        while (not self.msg.startswith("~demagnetize")):
-            try:
-                await userA.move_to(server.voice_channels[0])
-                await userB.move_to(server.voice_channels[len(server.voice_channels)-1])
-            except: break
-            sleep(0.25)
-        await self.message.channel.send("Repulse cancelado")
-
+        await self.message.channel.send(f"{tipo_.capitalize()} ligado.")
+        try:
+            while (not self.msg.startswith("~demagnetize")):
+                if (tipo_ in ["attract", "a"]):
+                    await userB_.move_to(channel=userA_.voice.channel)
+                else:
+                    await userA_.move_to(server_.voice_channels[0])
+                    await userB_.move_to(server_.voice_channels[-1])
+        finally:
+            await self.message.channel.send(f"{tipo_.capitalize()} cancelado.")
+    
 
     async def purge(self) -> None:
         r"""
@@ -574,26 +575,23 @@ class Commands:
 
         
     async def listCommands(self) -> None:
-
-        #define a cor que voce quer
-        cor  = Colour.from_rgb(255, 102, 102)
-
-        embedVar = Embed(title="~help para ter os comandos", description="Para voce infernizar seus amigos", colour=cor, )
-        
         r"""
         ## Help
         Mostra uma lista de todos os comando que o bot faz.
 
         ### Comando: `~help`
         """
-
+        embedVar:Embed = Embed(title="~help para ter os comandos", description="Para voce infernizar seus amigos", colour=Colour.from_rgb(255, 102, 102))
+        
+        comandos:list = list(allComands.keys())
         for x in range(len(allComands.keys())):
-            embedVar.add_field(name=list(allComands.keys())[x], value=list(allComands.values())[x], inline=False)
+            cmd = comandos[x]
+            embedVar.add_field(name=cmd, value=allComands[cmd], inline=False)
 
         await self.message.channel.send(embed=embedVar)
 
-        embedVar = None
-        del embedVar
+        embedVar = comandos = cmd = None
+        del embedVar, comandos, cmd
 
  
     async def playSound(self):
