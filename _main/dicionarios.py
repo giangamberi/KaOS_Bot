@@ -20,5 +20,6 @@ allComands:dict = {
     "~earthquake"                                       : "Terremoto! Todo mundo esta indo p/ todo lugar.\n",
     "~ban @pessoa"                                      : "Desconecta a pessoa do canal de voz.\n",
     "~shout NomeDoArquivo"                              : "Reproduz um áudio prestativo e inspirador.\n",
-    "~barricade"                                        : "Protege a call atual pra ninguém poder entrar.\n"
+    "~barricade"                                        : "Limita o número de pessoas no canal pela quantidade de pessoas que estão no canal no momento.\n",
+    "~unbarricade"                                      : "Tira a limitação do cnal de voz.\n"
 }

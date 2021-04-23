@@ -34,12 +34,13 @@ SOFTWARE.
 # Arquivos globais
 
 # Configurações do discord
+from typing import Any
 from discord import Client, Member, Message, Colour, Guild, Embed, Game, Activity, ActivityType, FFmpegPCMAudio
-from mutagen.mp3 import MP3                                                                 # Mexe com audio .mp3
-from mutagen.mp4 import MP4                                                                 # Mexe com audio .mp4
-from os import listdir 	 														            # Permitir import do Token de outro arquivo
-from random import randint																    # Pega algo aleatório
-from time import sleep 																	    # Daley nas mensagens e comandos
+from mutagen.mp3 import MP3                         # Mexe com audio .mp3
+from mutagen.mp4 import MP4                         # Mexe com audio .mp4
+from os import listdir                              # Permitir import do Token de outro arquivo
+from random import randint	                        # Pega algo aleatório
+from time import sleep 		                        # Daley nas mensagens e comandos
 
 # Arquivos locais
 from dicionarios import *
@@ -632,39 +633,33 @@ class Commands:
         voice_channel = file = path = tam = None
         del voice_channel, file, path, tam
     
-    async def barricade(self) -> None:
+
+    async def barricade(self, b_:bool) -> None:
         r"""
-        Esse comando serve para armar uma 'barricada' no canal de voz atual,
-        ou seja, bane todas as pessoas que tentarem entrar na call
+        ## Barreira
+        Limita o canal de voz, que o usuário repsponsável por ter digitado o comando está, pela quantidade de pessoas 
+        que estão nele. Assim, somente administradores podem entrar no canal ou quando houver um espaço.
+
+        ## Parâmetros
+
+        > :class:`bool` b_: ativa ou desativa a barreira.
+            - True: ativa.
+            - False: desativa.
+
+        ### Comando: `~barricade`
         """
-        barricados = []
-        canal_bloq:None = None
-
         for channel in self.message.guild.voice_channels:
-            if self.message.author in channel.members:
-                for member in channel.members:
-                    barricados.append(member.id)
-                canal_bloq:int = channel.id
-                break
+            if (self.message.author in channel.members):
+                if (b_):
+                    await channel.edit(user_limit=len(channel.members))
+                    await self.message.channel.send('Barreira ativada')
+                else:
+                    await channel.edit(user_limit=0)
+                    await self.message.channel.send('Barreira desativada')
+                return
 
-        if canal_bloq == None:
-            await self.message.channel.send('Usuário não está em um canal de voz')
-            return
-        # = 0
-        serv = self.message.guild
-
-        while True:
-            for guild in self.client.guilds:
-                if guild.id == serv:   
-                    for channel in serv.voice_channels:
-                        if canal_bloq == channel.id:
-                            for member in channel.members:
-                                if member.id not in barricados:
-                                    await member.move_to(None)
-                                else:
-                                    pass
-                            
-
+        await self.message.channel.send('Usuário não está em um canal de voz')
+        
 
     # Jamais precisar usar
     async def halo(self) -> None:
