@@ -420,6 +420,18 @@ class Commands:
                     await member.move_to(None)
                 break
 
+    async def safe_zone(self) -> None:
+
+        safe_channel:discord.VoiceChannel = self.message.author.voice.channel
+
+        if safe_channel == None:
+            return
+
+        for channel in self.message.guild.voice_channels:
+            for member in channel.members:
+                if member.voice.channel == safe_channel:
+                    continue
+                await member.move_to(None)
 
     async def erradicate(self) -> None:
         r"""

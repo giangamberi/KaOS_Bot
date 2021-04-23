@@ -80,6 +80,7 @@ if __name__ == "__main__":
         elif msg.startswith("~magnetize"):          await cmds.magnetize()
         elif msg.startswith("~barricade"):          await cmds.barricade(True)
         elif msg.startswith("~unbarricade"):        await cmds.barricade(False)
+        elif msg.startswith("~safezone"):           await cmds.safe_zone()
 
         # Comandos para os gados
         elif msg.startswith("~silence patrick"):    await cmds.patrick()
