@@ -34,7 +34,6 @@ SOFTWARE.
 # Arquivos globais
 
 # Configurações do discord
-from typing import Any
 from discord import Client, Member, Message, Colour, Guild, Embed, Game, Activity, ActivityType, FFmpegPCMAudio
 from mutagen.mp3 import MP3                         # Mexe com audio .mp3
 from mutagen.mp4 import MP4                         # Mexe com audio .mp4
@@ -61,6 +60,7 @@ class Commands:
     | userId        | Id do usuário                   |
     | botId         | Id do bot                       |
     | copypastas    | Lista com os copypastas         |
+    | sounds        | Lista com os áudios             |
     | msgSpams      | Lista com as mensagens de spam  |
     |---------------|---------------------------------|
     
@@ -72,6 +72,7 @@ class Commands:
     | getMsg        | Retorna a mensagem em string.                                                   |  
     | setUserId     | Define o id de um usuário.                                                      |
     | getUserId     | Retorna o id de um usuário .                                                    |
+    | options       | Manda uma lista dos arquivos salvos e disponiveis.                              |
     | padrao        | Verifica se tem palavras que na frase que manda alguma resposta.                |
     | spam          | Spamar uma mensagem n vezes no servidor.                                        |
     | spamPv        | Spamar uma mensagem n vezes no privado de alguém de forma anônima.              |
@@ -80,8 +81,7 @@ class Commands:
     | status        | Alterar status do bot.                                                          |
     | alerta        | Envia uma mensagem de alerta marcando todo mundo, em todos os canais do server. |
     | magnetize     | Junta ou distancia duas pessoas nos canais de voz de um servidor                |
-    | attract       | Mantém no mesmo canal de voz duas pessoas distintas                             |
-    | repulse       | Mantém o mais distante possível duas pessoas distintas dos canais de voz        |
+    | magnetizeAct  | Acão do magnetize                                                               |
     | purge         | Tira todo mundo do canal de voz.                                                |
     | erradicate    | Tira todo mundo de todos os canais de voz do server.                            |
     | shake         | Fica movendo uma usuário entre os canais de voz por 1 minuto.                   |
@@ -92,7 +92,8 @@ class Commands:
     | silence       | Silencia ou desilencia todos do canal de voz.                                   |
     | headfone      | Tira/coloca áudio e mic de alguém.                                              |
     | listCommands  | Mostra todos os comandos.                                                       |
-    | playSounds    | Reproduz um áudio já salvo na pasta.                                            |
+    | playSound     | Reproduz um áudio já salvo na pasta.                                            |
+    | barricade     | Limita um chat pelo total de pessoas que estão nele                             |
     | halo          | ATENÇÃO: Tira todo mundo do server, deixando apenas o adm e o bot.              |
     |---------------|---------------------------------------------------------------------------------|
     """
@@ -101,6 +102,7 @@ class Commands:
     userId:int = 0
     botId:int = 832785093117476884
     copypastas = listdir("copypastas/")
+    sounds = listdir("audios/")
     msgSpams:list = []
     
     def __init__(self, c_:Client) -> None:
@@ -119,7 +121,7 @@ class Commands:
             aux = f.readline()
             if aux == '': break
             self.msgSpams.append(aux)
-        f.close
+        f.close()
         self.copypastas.sort()
 
         f = aux = None
@@ -186,9 +188,24 @@ class Commands:
         return (int(user_[3:-1]))
         
     
+    async def options(self, tipo_:str, list_) -> None:
+        r"""
+        ## Opções
+        Retorna todos os arquieovs listados em um diretório
+
+        ## Parâmetros
+
+        > :class:`str` tipo_: Tipo do arquivo que vai ser postado.
+        > :class:`list` list_: Lista com os arquivo de um diretório.
+        """
+        lista:str = f"{tipo_} disponíveis: \n"
+        for x in range(len(list_)):
+            if (x < 9): lista += f"0{x+1} : {list_[x]}\n"
+            else:        lista += f"{x+1} : {list_[x]}\n"
+        await self.message.channel.send(lista)
+
 
     #### COMANDOS ####
-
 
 
     async def padrao(self) -> None:
@@ -246,30 +263,21 @@ class Commands:
         `@` @usuario: marca a usuário.
         :class:`str` mensagem: mensagem que vai ser mandada.
         """
-        texto = self.msg.split(" ", 1)[1]
-        n, texto = texto.split(" ",1)
-        user, texto = texto.split(" ",1)
-        found:bool = False
-
-        userId:int = self.getUserId(user)
+        msg:str = self.msg.split(" ", 3)
+        userId:int = self.getUserId(msg[2])
 
         await self.message.delete()
         for guild in self.client.guilds:
             for member in guild.members:
                 if (userId == member.id):
-                    user = member
-                    found = True
+                    for i in range(int(msg[1])):
+                        await member.send(msg[3])
+                        sleep(0.6)
+                    await member.send(self.msgSpams[randint(0,len(self.msgSpams))])
                     break
 
-        if (found):
-            for i in range(int(n)):
-                await user.send(texto)
-                sleep(0.6)
-            await user.send(self.msgSpams[randint(0,len(self.msgSpams))])
-
-        
-        texto = n = user = found = userId = guild = member = None
-        del texto, n, user, found, userId, guild, member
+        msg, userId = None
+        del msg, userId
 
 
     async def erase(self) -> None:
@@ -302,20 +310,19 @@ class Commands:
         `str` type: opção entre: jogo, musica ou filme
         :class:`str` mensagem: mensagem que vai ser mostrada.
         """
-        status:str = self.msg.split(" ",1)[1]
-        n, status = status.split(' ', 1)
-
-        if (n == "jogo"):
-            await self.client.change_presence(activity=Game(name=status))
+        status:str = self.msg.split(" ",2)
         
-        elif (n == "musica"):
-            await self.client.change_presence(activity=Activity(type=ActivityType.listening, name=status))
-
-        elif (n == "filme"):
-            await self.client.change_presence(activity=Activity(type=ActivityType.watching, name=status))
+        if (status[1] == "jogo"):
+            await self.client.change_presence(activity=Game(name=status[2]))
         
-        status = n = None
-        del status, n
+        elif (status[1] == "musica"):
+            await self.client.change_presence(activity=Activity(type=ActivityType.listening, name=status[2]))
+
+        elif (status[1] == "filme"):
+            await self.client.change_presence(activity=Activity(type=ActivityType.watching, name=status[2]))
+        
+        status = None
+        del status
         
 
     async def alerta(self) -> None:
@@ -464,36 +471,36 @@ class Commands:
 
         ### Comando: `~copypasta` ou `~copypasta index`
         :class:`int` index (opcional): número do copypasta que vai ser mandado
+            - help: mostra uma lista dos arquivos disponíveis.
         """
 
         try:                                                        # Caso tenha recebido um index por parâmetro
             index:str = self.msg.split(' ', 1)[1]
-            if (index == "help"):
-                lista:str = "copypastas disponiveis:\n"
-                for i in range (len(self.copypastas)):
-                    lista += str(i) + ": " + self.copypastas[i] + "\n"
-                await self.message.channel.send(lista)
+            if (index == "help"): 
+                await self.options("Copypastas", self.copypastas)
+                index = None
+                del index
                 return
-            else: index = int(index)
-        except: index:int = randint(0, len(self.copypastas)-1)		# Pega um arquivo aleatório
-
+            else:
+                index = int(index)
+        except: 
+            index:int = randint(0, len(self.copypastas)-1)		# Pega um arquivo aleatório
+    
         path:str = "copypastas/" + self.copypastas[index]
         
         doc = open(path,"rb")
-        
         while True:
-            aux = doc.readline()
-            aux = aux.decode('utf-8')
-            if aux == "": break
-            if aux in ["\n", " \n"]: continue
+            linha:str = doc.readline().decode('UTF-8')
+            if (linha == ""): break
+            if (linha.strip() == "\n"): continue
             try:
-                await self.message.channel.send(aux)
+                await self.message.channel.send(linha)
                 sleep(0.55)
             except:	continue
-        doc.close
+        doc.close()
 
-        index = path = doc = aux = None
-        del index, path, doc, aux
+        index = path = doc = linha = None
+        del index, path, doc, linha
 
 
     async def roll(self) -> None:
@@ -603,41 +610,49 @@ class Commands:
 
         ### Comando: `~shout file`
         :class:`str` file: nome do arquivo com o seu tipo de áudio (.mp3 ou .mp4)
+            - help: mostra uma lista dos arquivos disponíveis.
         """
-        voice_channel = self.message.author.voice.channel
-        file:str = self.msg.split(" ",1)[1]
-        path:str = f"audios/{file}"
+        file:str = self.msg.split(" ", 1)[1]
 
-        if (file[-4:] in [".mp3", ".mp4"]):
-            try: 
-                if (file[-4:] == ".mp3"):
-                    tam:int = MP3(path).info.length +1
-                else: 
-                    tam:int = MP4(path).info.length +1
-            except: return
+        if (file == "help"): await self.options("Áudios", self.sounds)    
+        else:
+            try: file = self.sounds[int(file.strip())-1]
+            finally:
+                if (file[-4:] in [".mp3", ".mp4"]):
+                    voice_channel = self.message.author.voice.channel
+                    path:str = f"audios/{file}"
+                    try: 
+                        if (file[-4:] == ".mp3"): tam:int = MP3(path).info.length
+                        else:                     tam:int = MP4(path).info.length
+                    except: return
+                        
+                    if voice_channel != None:
+                        vc = await voice_channel.connect()
+                        vc.play(FFmpegPCMAudio(path, executable="Arquivos/ffmpeg.exe"))
+
+                        sleep(tam+0.5)
+                        for member in self.message.guild.members:
+                            if member.id == self.botId:
+                                await member.move_to(None)
+                                break
                 
-            if voice_channel != None:
-                vc = await voice_channel.connect()
-                vc.play(FFmpegPCMAudio(path, executable="Arquivos/ffmpeg.exe"))
-                sleep(tam)
-                vc = None
-                del vc
-            else:
-                await self.message.channel.send('Usuário não está em um canal de voz')
+                        vc = None
+                        del vc
+                    else:
+                        await self.message.channel.send('Usuário não está em um canal de voz')
 
-            for member in self.message.guild.members:
-                if member.id == self.botId:
-                    await member.move_to(None)
-                    break
-        
-        voice_channel = file = path = tam = None
-        del voice_channel, file, path, tam
+                    voice_channel = path = tam = None
+                    del voice_channel, path,  tam
+                else:
+                    await self.message.channel.send('Esse arquivo não existe. \nDigite "~shout help" para ver os áudios disponiveis.')
+        file = None
+        del file
     
 
     async def barricade(self, b_:bool) -> None:
         r"""
         ## Barreira
-        Limita o canal de voz, que o usuário repsponsável por ter digitado o comando está, pela quantidade de pessoas 
+        Limita o canal de voz, que o usuário responsável por ter digitado o comando está, pela quantidade de pessoas 
         que estão nele. Assim, somente administradores podem entrar no canal ou quando houver um espaço.
 
         ## Parâmetros
