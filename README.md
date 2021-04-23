@@ -1,5 +1,5 @@
 # KaOS_Bot
-[![Versão](https://img.shields.io/badge/version-v1.0-orange)](https://github.com/giangamberi/KaOS_Bot/releases/tag/v1.0)
+[![Versão](https://img.shields.io/badge/version-v2.0-orange)](https://github.com/giangamberi/KaOS_Bot/releases/tag/v2.0)
 ![Plataforma](https://img.shields.io/badge/plataforma-Windows-lightgrey?logo=windows)
 [![Versão python](https://img.shields.io/badge/python-v3.8.5-blue?logo=python)](https://www.python.org/downloads/release/python-385/)
 [![Licença](https://img.shields.io/badge/license-MIT-brightgreen?)](https://github.com/giangamberi/KaOS_Bot/blob/main/LICENSE)
@@ -35,10 +35,12 @@ Um bot *MUITO* caótico do discord.
 |~undeafen (@pessoa)					|Volta o som e o mic da pessoa. Booooo.|
 |~silence						|Cala a boca de todo mundo.|
 |~unsilence						|!Silence.|
-|~ban (@pessoa)						|Desconecta a pessoa do canal de voz.|
-|~earthquake						|Mistura todos os integrantes em todas as salas e os embaralha. Show!|
 |~shake (@pessoa)					|Você amaldiçoou a pessoa a ficar trocando entre os canais de voz a cada segundo. Por 1 minuto.|
+|~earthquake						|Mistura todos os integrantes em todas as salas e os embaralha. Show!|
+|~ban (@pessoa)						|Desconecta a pessoa do canal de voz.|
 |~shout (nomedoaudio).mp3				|Reproduz um áudio prestativo e inspirador.|
+|~barricade 						|Ninguem mais entra na call, limita a call pela quantidade de pessoas no momento.|
+|~unbarricade 						|Tira a limitação.|
 
 
 ## Código
