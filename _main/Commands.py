@@ -500,7 +500,7 @@ class Commands:
         ## Roll
         Aleatóriamente disconecta um usuário no mesmo canal de voz que o usuário responsável por digitar o comando.
 
-        ### Comando: `~rollette`
+        ### Comando: `~roullette`
         """
         for channel in self.message.guild.voice_channels:
             if self.message.author in channel.members:
@@ -631,8 +631,41 @@ class Commands:
         
         voice_channel = file = path = tam = None
         del voice_channel, file, path, tam
-
     
+    async def barricade(self) -> None:
+        r"""
+        Esse comando serve para armar uma 'barricada' no canal de voz atual,
+        ou seja, bane todas as pessoas que tentarem entrar na call
+        """
+        barricados = []
+        canal_bloq:None = None
+
+        for channel in self.message.guild.voice_channels:
+            if self.message.author in channel.members:
+                for member in channel.members:
+                    barricados.append(member.id)
+                canal_bloq:int = channel.id
+                break
+
+        if canal_bloq == None:
+            await self.message.channel.send('Usuário não está em um canal de voz')
+            return
+        # = 0
+        serv = self.message.guild
+
+        while True:
+            for guild in self.client.guilds:
+                if guild.id == serv:   
+                    for channel in serv.voice_channels:
+                        if canal_bloq == channel.id:
+                            for member in channel.members:
+                                if member.id not in barricados:
+                                    await member.move_to(None)
+                                else:
+                                    pass
+                            
+
+
     # Jamais precisar usar
     async def halo(self) -> None:
         r"""

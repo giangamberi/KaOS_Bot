@@ -19,5 +19,6 @@ allComands:dict = {
     "~shake <@pessoa>"                                  : "A pessoa esta confusa e fica mudando de canal aleatoriamente.\n",
     "~earthquake"                                       : "Terremoto! Todo mundo esta indo p/ todo lugar.\n",
     "~ban @pessoa"                                      : "Desconecta a pessoa do canal de voz.\n",
-    "~shout NomeDoArquivo"                              : "Reproduz um áudio prestativo e inspirador.\n"
+    "~shout NomeDoArquivo"                              : "Reproduz um áudio prestativo e inspirador.\n",
+    "~barricade"                                        : "Protege a call atual pra ninguém poder entrar.\n"
 }

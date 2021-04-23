@@ -78,6 +78,7 @@ if __name__ == "__main__":
         elif msg.startswith("~help"):               await cmds.listCommands()
         elif msg.startswith("~shout"):              await cmds.playSound()
         elif msg.startswith("~magnetize"):          await cmds.magnetize()
+        elif msg.startswith("~barricade"):          await cmds.barricade()
 
         # Comandos para os gados
         elif msg.startswith("~silence patrick"):    await cmds.patrick()
