@@ -11,3 +11,4 @@ Arquivos/Imagens/Logo/imagens
 
 ## Tirando a pasta .vscode
 #*.vscode
+_main/.env
