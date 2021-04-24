@@ -217,18 +217,23 @@ class Commands:
         - `el`: Meu pau no teu anel
         - `duvido`: Meu pau no teu ouvido
         """
+
+        texto = self.msg.lower()
         
-        if (("duvido" in self.msg.lower()) and (self.message.author != self.client.user)):
+        if (texto == "f" and self.message.author != self.client.user):
+            await self.message.channel.send("F")
+        
+        elif (("duvido" in texto) and (self.message.author != self.client.user)):
             await self.message.channel.send(f"{self.message.author.mention} Meu pau no teu ouvido.")
 
-        if ((self.msg.lower().endswith("ao") or self.msg.lower().endswith("ão")) and (self.message.author != self.client.user)):
+        if ((texto.endswith("ao") or texto.endswith("ão")) and (self.message.author != self.client.user)):
             await self.message.channel.send(f"{self.message.author.mention} Meu pau na sua mão.")
 
-        elif ((self.msg.lower().endswith("ta")) and (self.message.author != self.client.user) and (not self.msg.lower().startswith("~copypasta"))):
+        elif ((texto.endswith("ta")) and (self.message.author != self.client.user) and (not texto.startswith("~copypasta"))):
             await self.message.channel.send(f"{self.message.author.mention} Meu pau te cutuca.")
 
-        elif ((self.msg.lower().endswith("el")) and (self.message.author != self.client.user)):
-            await self.message.channel.send(f"{self.message.author.mention} Meu pau no teu anel.")    
+        elif ((texto.endswith("el")) and (self.message.author != self.client.user)):
+            await self.message.channel.send(f"{self.message.author.mention} Meu pau no teu anel.")
 
 
     async def spam(self) -> None:
